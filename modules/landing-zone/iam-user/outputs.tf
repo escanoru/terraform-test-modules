@@ -4,7 +4,7 @@ output "user_arn" {
 }
 
 
-output "user_all" {
-  value       = aws_iam_user.example
-  description = "The ARN of the created IAM user"
-}
+# output "user_all" {
+#   value       = aws_iam_user.example
+#   description = "The ARN of the created IAM user"
+# }
