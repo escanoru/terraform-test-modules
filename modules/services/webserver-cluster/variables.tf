@@ -8,6 +8,11 @@ variable "server_port" {
   type        = number
 }
 
+variable "db_remote_state_bucket_aws_region" {
+  description = "The name of the S3 bucket for the database's remote state"
+  type        = string
+}
+
 variable "db_remote_state_bucket" {
   description = "The name of the S3 bucket for the database's remote state"
   type        = string
