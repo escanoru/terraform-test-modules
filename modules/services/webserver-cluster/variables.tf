@@ -1,3 +1,8 @@
+variable "aws_region" {
+  description = "Working AWS region"
+  type        = string
+}
+
 variable "cluster_name" {
   description = "The name to use for all the cluster resources"
   type        = string
@@ -41,4 +46,11 @@ variable "desired_capacity" {
 variable "max_size" {
   description = "The maximum number of EC2 Instances in the ASG"
   type        = number
+}
+
+// To allow users to specify custom tags, we add a new map input variable called custom_tags:
+variable "custom_tags" { 
+  description = "Custom tags to set on the Instances in the ASG"
+  type        = map(string)
+  default     = {}
 }

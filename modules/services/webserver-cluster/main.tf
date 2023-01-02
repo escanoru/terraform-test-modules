@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = var.aws_region
 }
 
 locals {
@@ -66,6 +66,16 @@ resource "aws_autoscaling_group" "asg_conf" {
     key                 = "Name"
     value               = "${var.cluster_name} ASG conf"
     propagate_at_launch = true
+  }
+
+  dynamic "tag" {
+    for_each = var.custom_tags
+
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
+    }
   }
 }
 
