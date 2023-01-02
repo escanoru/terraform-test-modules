@@ -1,5 +1,12 @@
 provider "aws" {
   region = var.aws_region
+  default_tags {
+    tags = {
+      Owner        = var.owner
+      Environment  = var.environment
+      ManagedBy    = "Terraform"
+    }
+  }
 }
 
 // Amazon RDS can take roughly 10 minutes to provision even a small database, so be patient
@@ -15,14 +22,4 @@ resource "aws_db_instance" "example" { // aws_db_instance for AWS RDS
   // Pass the credential through environmental variables:
   username = var.db_username // export TF_VAR_db_username="<YOUR_DB_USERNAME>"
   password = var.db_password // export TF_VAR_db_password="<YOUR_DB_PASSWORD>"
-
-  dynamic "tags" {
-    for_each = var.custom_tags
-
-    content {
-      key                 = tag.key
-      value               = tag.value
-      propagate_at_launch = true
-    }
-  }
 }
