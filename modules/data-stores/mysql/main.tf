@@ -1,8 +1,5 @@
 provider "aws" {
   region = var.aws_region
-  # default_tags {
-  #   tags = var.db_tags 
-  # }
 }
 
 // Amazon RDS can take roughly 10 minutes to provision even a small database, so be patient
