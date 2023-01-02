@@ -1,12 +1,12 @@
 provider "aws" {
   region = var.aws_region
-  default_tags {
-    tags = {
-      Owner        = var.owner
-      Environment  = var.environment
-      ManagedBy    = "Terraform"
-    }
-  }
+  # default_tags {
+  #   tags = {
+  #     Owner        = var.owner
+  #     Environment  = var.environment
+  #     ManagedBy    = "Terraform"
+  #   }
+  # }
 }
 
 // Amazon RDS can take roughly 10 minutes to provision even a small database, so be patient
