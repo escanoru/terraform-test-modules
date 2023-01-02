@@ -41,3 +41,10 @@ variable "skip_final_snapshot" {
   type        = bool
   default     = true
 }
+
+// To allow users to specify custom tags, we add a new map input variable called custom_tags:
+variable "custom_tags" { 
+  description = "Custom tags to set on the Instances in the ASG"
+  type        = map(string)
+  default     = {}
+}
