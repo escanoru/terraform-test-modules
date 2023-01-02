@@ -16,7 +16,7 @@ resource "aws_db_instance" "example" { // aws_db_instance for AWS RDS
   username = var.db_username // export TF_VAR_db_username="<YOUR_DB_USERNAME>"
   password = var.db_password // export TF_VAR_db_password="<YOUR_DB_PASSWORD>"
 
-  dynamic "tag" {
+  dynamic "tags" {
     for_each = var.custom_tags
 
     content {
