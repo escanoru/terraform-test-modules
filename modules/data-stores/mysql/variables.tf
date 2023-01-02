@@ -35,3 +35,9 @@ variable "allocated_storage" {
   description = "Allocated space"
   type        = string
 }
+
+variable "skip_final_snapshot" {
+  description = "The final snapshot is disabled, as this code is just for learning and testing (if you don’t disable the snapshot, or don’t provide a name for the snapshot via the final_snapshot_identifier parameter, destroy will fail)"
+  type        = bool
+  default     = true
+}
