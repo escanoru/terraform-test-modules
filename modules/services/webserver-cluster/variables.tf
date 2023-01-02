@@ -1,5 +1,5 @@
 variable "aws_region" {
-  description = "Working AWS reguion"
+  description = "Working AWS region"
   type        = string
 }
 
