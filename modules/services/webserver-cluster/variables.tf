@@ -1,3 +1,8 @@
+variable "aws_region" {
+  description = "Working AWS reguion"
+  type        = string
+}
+
 variable "cluster_name" {
   description = "The name to use for all the cluster resources"
   type        = string
