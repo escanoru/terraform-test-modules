@@ -42,12 +42,8 @@ variable "skip_final_snapshot" {
   default     = true
 }
 
-variable "tag_owner" {
-  description = "Owner tag"
-  type        = string
-}
-
-variable "tag_environment" {
-  description = "Environment tag"
-  type        = string
+variable "db_tags" {
+  description = "DB instance tag"
+  type        = map(string)
+  default     = {}
 }
