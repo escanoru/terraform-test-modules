@@ -23,7 +23,7 @@ output "default_vpc_available_subnets" {
   description = "The available subnets on the default VPC"
 }
 
-output "enable_autoscaling" {
+output "autoscaling_config" {
   value       = var.enable_autoscaling
   description = "Autoscaling configuration"
 }
