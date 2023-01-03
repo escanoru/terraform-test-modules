@@ -43,7 +43,7 @@ resource "aws_launch_configuration" "asg_lc" {
 // Now you can create the ASG itself using the aws_autoscaling_group resource:
 resource "aws_autoscaling_group" "asg_conf" {
   # Explicitly depend on the launch configuration's name so each time it's replaced, this ASG is also replaced
-  name = "${var.cluster_name}-${aws_launch_configuration.example.name}"
+  name = "${var.cluster_name}-${aws_launch_configuration.asg_lc.name}"
 
   launch_configuration = aws_launch_configuration.asg_lc.name
   /*
