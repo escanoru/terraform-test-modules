@@ -22,3 +22,8 @@ output "default_vpc_available_subnets" {
   value       = data.aws_subnets.default.ids
   description = "The available subnets on the default VPC"
 }
+
+output "enable_autoscaling" {
+  value       = var.enable_autoscaling
+  description = "Autoscaling configuration"
+}
