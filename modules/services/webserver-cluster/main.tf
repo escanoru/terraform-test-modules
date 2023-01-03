@@ -16,17 +16,18 @@ The aws_launch_configuration resource uses almost the same parameters as the aws
 */
 
 resource "aws_launch_configuration" "asg_lc" {
-  image_id        = "ami-08d4ac5b634553e16"
+  image_id        = var.ami
   instance_type   = var.instance_type
   security_groups = [aws_security_group.asg_sg.id]
 
   // https://developer.hashicorp.com/terraform/language/functions/templatefile
   user_data = templatefile("${path.module}/user-data.sh", {
-    server_port       = var.server_port
-    db_address        = data.terraform_remote_state.db.outputs.rds_mysql_address
-    db_port           = data.terraform_remote_state.db.outputs.rds_mysql_port
-    db_engine         = data.terraform_remote_state.db.outputs.rds_mysql_engine
-    db_engine_version = data.terraform_remote_state.db.outputs.rds_mysql_engine_version
+    server_port        = var.server_port
+    db_address         = data.terraform_remote_state.db.outputs.rds_mysql_address
+    db_port            = data.terraform_remote_state.db.outputs.rds_mysql_port
+    db_engine          = data.terraform_remote_state.db.outputs.rds_mysql_engine
+    db_engine_version  = data.terraform_remote_state.db.outputs.rds_mysql_engine_version
+    server_text        = var.server_text
   })
   
   /*
