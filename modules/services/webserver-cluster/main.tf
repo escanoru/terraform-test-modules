@@ -44,6 +44,10 @@ resource "aws_launch_configuration" "asg_lc" {
 resource "aws_autoscaling_group" "asg_conf" {
   # Explicitly depend on the launch configuration's name so each time it's replaced, this ASG is also replaced
   name = "${var.cluster_name}-${aws_launch_configuration.asg_lc.name}"
+  # When replacing this ASG, create the replacement first, and only delete the original after
+  lifecycle {
+    create_before_destroy = true
+  }
 
   launch_configuration = aws_launch_configuration.asg_lc.name
   /*
@@ -61,18 +65,13 @@ resource "aws_autoscaling_group" "asg_conf" {
   */
   health_check_type = "ELB"
 
+  # Wait for at least this many instances to pass health checks before considering the ASG deployment complete
+  min_elb_capacity = var.min_size
+
   // This ASG will run between 2 and 10 EC2 Instances (defaulting to 2 for the initial launch)
   min_size = var.min_size
   desired_capacity = var.desired_capacity
   max_size = var.max_size
-
-  # Wait for at least this many instances to pass health checks before considering the ASG deployment complete
-  min_elb_capacity = var.min_size
-
-  # When replacing this ASG, create the replacement first, and only delete the original after
-  lifecycle {
-    create_before_destroy = true
-  }
 
   tag {
     key                 = "Name"
