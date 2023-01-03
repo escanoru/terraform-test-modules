@@ -16,17 +16,18 @@ The aws_launch_configuration resource uses almost the same parameters as the aws
 */
 
 resource "aws_launch_configuration" "asg_lc" {
-  image_id        = "ami-08d4ac5b634553e16"
+  image_id        = var.ami
   instance_type   = var.instance_type
   security_groups = [aws_security_group.asg_sg.id]
 
   // https://developer.hashicorp.com/terraform/language/functions/templatefile
   user_data = templatefile("${path.module}/user-data.sh", {
-    server_port       = var.server_port
-    db_address        = data.terraform_remote_state.db.outputs.rds_mysql_address
-    db_port           = data.terraform_remote_state.db.outputs.rds_mysql_port
-    db_engine         = data.terraform_remote_state.db.outputs.rds_mysql_engine
-    db_engine_version = data.terraform_remote_state.db.outputs.rds_mysql_engine_version
+    server_port        = var.server_port
+    db_address         = data.terraform_remote_state.db.outputs.rds_mysql_address
+    db_port            = data.terraform_remote_state.db.outputs.rds_mysql_port
+    db_engine          = data.terraform_remote_state.db.outputs.rds_mysql_engine
+    db_engine_version  = data.terraform_remote_state.db.outputs.rds_mysql_engine_version
+    server_text        = var.server_text
   })
   
   /*
@@ -41,6 +42,13 @@ resource "aws_launch_configuration" "asg_lc" {
 
 // Now you can create the ASG itself using the aws_autoscaling_group resource:
 resource "aws_autoscaling_group" "asg_conf" {
+  # Explicitly depend on the launch configuration's name so each time it's replaced, this ASG is also replaced
+  name = "${var.cluster_name}-${aws_launch_configuration.asg_lc.name}"
+  # When replacing this ASG, create the replacement first, and only delete the original after
+  lifecycle {
+    create_before_destroy = true
+  }
+
   launch_configuration = aws_launch_configuration.asg_lc.name
   /*
   There’s also one other parameter that you need to add to your ASG to make it work: subnet_ids. 
@@ -56,6 +64,9 @@ resource "aws_autoscaling_group" "asg_conf" {
   You should also update the health_check_type to "ELB". The default health_check_type is "EC2", which is a minimal health check that considers an Instance unhealthy only if the AWS hypervisor says the VM is completely down or unreachable. The "ELB" health check is more robust, because it instructs the ASG to use the target group’s health check to determine whether an Instance is healthy and to automatically replace Instances if the target group reports them as unhealthy. That way, instances will be replaced not only if they are completely down, but also if, for example, they’ve stopped serving requests because they ran out of memory or a critical process crashed:
   */
   health_check_type = "ELB"
+
+  # Wait for at least this many instances to pass health checks before considering the ASG deployment complete
+  min_elb_capacity = var.min_size
 
   // This ASG will run between 2 and 10 EC2 Instances (defaulting to 2 for the initial launch)
   min_size = var.min_size
