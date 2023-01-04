@@ -28,7 +28,7 @@ resource "aws_db_instance" "example" { // aws_db_instance for AWS RDS
   username               = var.replicate_source_db == null ? var.db_username : null // export TF_VAR_db_username="<YOUR_DB_USERNAME>"
   password               = var.replicate_source_db == null ? var.db_password : null // export TF_VAR_db_password="<YOUR_DB_PASSWORD>"
   instance_class         = var.replicate_source_db == null ? var.instance_class : null
-  identifier_prefix  = var.replicate_source_db == null ? var.rds_identifier_prefix : null
+  identifier_prefix      = var.replicate_source_db == null ? var.rds_identifier_prefix : null
   allocated_storage      = var.replicate_source_db == null ? var.allocated_storage : null
 
 }
