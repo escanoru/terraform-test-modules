@@ -7,11 +7,13 @@ variable "aws_region" {
 variable "instance_class" {
   description = "instance class, not all classe are availble on all regions"
   type        = string
+  default     = null
 }
 
 variable "rds_identifier_prefix" {
   description = "identifier prefix for rds instance"
   type        = string
+  default     = null
 }
 
 variable "db_name" {
@@ -37,6 +39,7 @@ variable "db_password" {
 variable "allocated_storage" {
   description = "Allocated space"
   type        = string
+  default     = null
 }
 
 variable "skip_final_snapshot" {
