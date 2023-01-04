@@ -17,3 +17,8 @@ output "rds_mysql_engine_version" {
   value       = aws_db_instance.example.engine_version
   description = "Engine version"
 }
+
+output "arn" {
+  value       = aws_db_instance.example.arn
+  description = "The ARN of the database"
+}
