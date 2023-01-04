@@ -8,7 +8,7 @@ output "rds_mysql_port" {
   description = "The port the database is listening on"
 }
 
-output "arn" {
+output "rds_mysql_arn" {
   value       = aws_db_instance.example.arn
   description = "The ARN of the database"
 }
