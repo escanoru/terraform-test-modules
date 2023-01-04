@@ -13,7 +13,7 @@ terraform {
 
 // Amazon RDS can take roughly 10 minutes to provision even a small database, so be patient
 resource "aws_db_instance" "example" { // aws_db_instance for AWS RDS
-  instance_class         = var.replicate_source_db
+  instance_class         = var.instance_class
   skip_final_snapshot = true // // If you don’t skip (disable) the snapshot, or don’t provide a name for the snapshot via the final_snapshot_identifier parameter, destroy will fail).
   tags                = var.db_tags
 
