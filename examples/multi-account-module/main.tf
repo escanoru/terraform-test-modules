@@ -14,13 +14,17 @@ provider "aws" {
   }
 }
 
-// Now, to check this is actually working, add two aws_caller_identity data sources, and configure each one to use a different provider:
-data "aws_caller_identity" "parent" {
-  provider = aws.parent
-}
+// The remaining code is located on the ../../modules/multi-account
+module "multi_account_example" {
+  source = "../../modules/multi-account"
 
-data "aws_caller_identity" "child" {
-  provider = aws.child
+  providers = {
+    aws.parent = aws.parent
+    aws.child  = aws.child
+  }
+
+  aws_account_id = var.aws_account_id
+  aws_iam_role   = var.aws_iam_role
 }
 
 // Manual local test can be done by running:
