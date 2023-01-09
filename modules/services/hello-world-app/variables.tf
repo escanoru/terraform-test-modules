@@ -1,13 +1,3 @@
-variable "aws_region" {
-  description = "Working AWS region"
-  type        = string
-}
-
-variable "cluster_name" {
-  description = "The name to use for all the cluster resources"
-  type        = string
-}
-
 variable "server_port" {
   description = "The port the server will use for HTTP requests"
   type        = number
@@ -70,4 +60,19 @@ variable "server_text" {
   description = "The text the web server should return"
   type        = string
   default     = "Hello, World"
+}
+
+variable "environment" {
+  description = "The name of the environment we're deploying to"
+  type        = string
+}
+
+variable "subnet_ids" {
+  description = "The subnet IDs to deploy to"
+  type        = list(string)
+}
+
+variable "vpc_id" {
+  description = "VPC in which to deploy the resources"
+  type        = string
 }
