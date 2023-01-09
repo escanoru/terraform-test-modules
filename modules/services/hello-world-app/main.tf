@@ -5,6 +5,7 @@ provider "aws" {
 module "asg" {
   source = "../../cluster/asg-rolling-deploy"
 
+  vpc_id        = var.vpc_id
   cluster_name  = "hello-world-${var.environment}"
   ami           = var.ami
   instance_type = var.instance_type
@@ -18,9 +19,10 @@ module "asg" {
 
   min_size           = var.min_size
   max_size           = var.max_size
+  desired_capacity   = var.desired_capacity
   enable_autoscaling = var.enable_autoscaling
 
-  subnet_ids        = data.aws_subnets.default.ids
+  subnet_ids        = var.subnet_ids
   target_group_arns = [aws_lb_target_group.asg.arn]
   health_check_type = "ELB"
 
@@ -31,14 +33,14 @@ module "alb" {
   source = "../../networking/alb"
 
   alb_name   = "hello-world-${var.environment}"
-  subnet_ids = data.aws_subnets.default.ids
+  subnet_ids = var.subnet_ids
 }
 
 resource "aws_lb_target_group" "asg" {
   name     = "hello-world-${var.environment}"
   port     = var.server_port
   protocol = "HTTP"
-  vpc_id   = data.aws_vpc.default.id
+  vpc_id   = var.vpc_id
 
   /*
   This target group will health check your Instances by periodically sending an HTTP request to each Instance and will consider the Instance “healthy” only if the Instance returns a response that matches the configured matcher (e.g., you can configure a matcher to look for a 200 OK response). If an Instance fails to respond, perhaps because that Instance has gone down or is overloaded, it will be marked as “unhealthy,” and the target group will automatically stop sending traffic to it to minimize disruption for your users.

@@ -76,3 +76,13 @@ variable "environment" {
   description = "The name of the environment we're deploying to"
   type        = string
 }
+
+variable "subnet_ids" {
+  description = "The subnet IDs to deploy to"
+  type        = list(string)
+}
+
+variable "vpc_id" {
+  description = "VPC in which to deploy the resources"
+  type        = string
+}
