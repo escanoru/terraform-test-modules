@@ -26,7 +26,7 @@ resource "aws_lb" "example" {
   name               = var.alb_name
   load_balancer_type = "application"
   subnets            = var.subnet_ids
-  security_groups    = [aws_security_group.alb_sg.id]
+  security_groups    = [aws_security_group.alb.id]
 }
 
 // Now we need to define the listener, the target group and the listerner rules, each has its own terraform resource:
