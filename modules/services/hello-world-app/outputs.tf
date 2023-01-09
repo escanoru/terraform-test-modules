@@ -22,8 +22,3 @@ output "autoscaling_config" {
   value       = var.enable_autoscaling
   description = "Autoscaling configuration"
 }
-
-output "rds" {
-  value       = data.terraform_remote_state.db.outputs
-  description = "Autoscaling configuration"
-}
