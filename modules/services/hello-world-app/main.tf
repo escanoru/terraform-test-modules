@@ -22,7 +22,7 @@ module "asg" {
     db_address        = data.terraform_remote_state.db.outputs.address
     db_port           = data.terraform_remote_state.db.outputs.port
     db_engine         = data.terraform_remote_state.db.outputs.engine
-    db_engine_version = data.terraform_remote_state.db.outputs.db_engine_version
+    db_engine_version = data.terraform_remote_state.db.outputs.engine_version
     server_port       = var.server_port
     
   })
