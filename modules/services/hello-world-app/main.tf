@@ -12,28 +12,31 @@ terraform {
 module "asg" {
   source = "../../cluster/asg-rolling-deploy"
 
-  vpc_id        = var.vpc_id
-  cluster_name  = "hello-world-${var.environment}"
-  ami           = var.ami
-  instance_type = var.instance_type
+  vpc_id              = var.vpc_id
+  cluster_name        = "hello-world-${var.environment}"
+  ami                 = var.ami
+  instance_type       = var.instance_type
 
-  user_data     = templatefile("${path.module}/user-data.sh", {
-    server_port = var.server_port
-    db_address  = data.terraform_remote_state.db.outputs.address
-    db_port     = data.terraform_remote_state.db.outputs.port
-    server_text = var.server_text
+  user_data           = templatefile("${path.module}/user-data.sh", {
+    server_text       = var.server_text
+    db_address        = data.terraform_remote_state.db.outputs.address
+    db_port           = data.terraform_remote_state.db.outputs.port
+    db_engine         = data.terraform_remote_state.db.outputs.engine
+    db_engine_version = data.terraform_remote_state.db.outputs.db_engine_version
+    server_port       = var.server_port
+    
   })
 
-  min_size           = var.min_size
-  max_size           = var.max_size
-  desired_capacity   = var.desired_capacity
-  enable_autoscaling = var.enable_autoscaling
+  min_size            = var.min_size
+  max_size            = var.max_size
+  desired_capacity    = var.desired_capacity
+  enable_autoscaling  = var.enable_autoscaling
 
-  subnet_ids        = var.subnet_ids
-  target_group_arns = [aws_lb_target_group.asg.arn]
-  health_check_type = "ELB"
+  subnet_ids          = var.subnet_ids
+  target_group_arns   = [aws_lb_target_group.asg.arn]
+  health_check_type   = "ELB"
 
-  custom_tags = var.custom_tags
+  custom_tags         = var.custom_tags
 }
 
 module "alb" {
