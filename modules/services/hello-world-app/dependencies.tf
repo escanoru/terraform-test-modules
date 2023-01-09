@@ -1,4 +1,4 @@
-data "terraform_remote_state" "db" { // Read the state file from 05_file_isolation/stage/data-stores/mysql 
+data "terraform_remote_state" "db" {
   backend = "s3"
 
   config = {
