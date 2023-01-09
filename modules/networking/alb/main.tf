@@ -50,12 +50,12 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_security_group" "alb" {
-  name = "${var.alb_name}"
+  name = "${var.alb_name} ALB"
   description = "${var.alb_name} ALB security group"
   vpc_id = var.vpc_id
 
   tags = {
-    Name = "${var.alb_name}"
+    Name = "${var.alb_name} ALB"
   }
 }
 
