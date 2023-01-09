@@ -40,6 +40,7 @@ module "alb" {
   source = "../../networking/alb"
 
   alb_name   = "hello-world-${var.environment}"
+  vpc_id        = var.vpc_id
   subnet_ids = var.subnet_ids
 }
 
