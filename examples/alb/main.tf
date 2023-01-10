@@ -20,3 +20,8 @@ data "aws_subnets" "subnets" {
     values = [data.aws_vpc.vpc.id]
   }
 }
+
+output "alb_dns_name" {
+  value       = module.alb.alb_dns_name
+  description = "The domain name of the load balancer"
+}
